@@ -5,8 +5,8 @@ def main():
     url = "https://nhlstatisticsforohtu.herokuapp.com/players"
     response = requests.get(url).json()
 
-    print("JSON-muotoinen vastaus:")
-    print(response)
+    # print("JSON-muotoinen vastaus:")
+    # print(response)
 
     players = []
 
@@ -18,13 +18,15 @@ def main():
             team = player_dict['team']
             goals = player_dict['goals']
             assists = player_dict['assists']
-            combined = goals+assists
+            points = goals+assists
             player = Player(
-                name, nat, team, goals, assists, combined
+                name, nat, team, goals, assists, points
             )
             players.append(player)
 
     print("Oliot:")
+
+    players.sort(key=lambda player: player.points, reverse=True)
 
     for player in players:
         print(player)

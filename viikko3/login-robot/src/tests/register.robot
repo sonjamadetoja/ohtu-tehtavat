@@ -5,7 +5,7 @@ Test Setup  Input New Command And Create User
 *** Test Cases ***
 
 Register With Valid Username And Password
-    Create User  testuser  testpassword1
+    Input Credentials  testuser  testpassword1
     Output Should Contain  New user registered
 
 *** Keywords ***

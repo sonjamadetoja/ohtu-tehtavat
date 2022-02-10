@@ -40,3 +40,9 @@ class UserService:
 
         if len(username) < 3 or not re.match("^[a-z]+$", username):
             raise AuthenticationError("Invalid username")
+
+        if len(password) < 8:
+            raise AuthenticationError("Password too short")
+
+        if not re.match(".*[^a-zA-Z]+.*$", password):
+            raise AuthenticationError("Password doesn't contain a non-letter character")

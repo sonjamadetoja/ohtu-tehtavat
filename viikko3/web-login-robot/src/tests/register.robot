@@ -33,6 +33,32 @@ Register With Nonmatching Password And Password Confirmation
     Submit Credentials
     Register Should Fail With Message  Password and password confirmation don't match
 
+Login After Successful Registration
+    Set Username  testi
+    Set Password  testi123
+    Set Password Confirmation  testi123
+    Submit Credentials
+    Register Should Succeed
+    Go To Login Page
+    Login Page Should Be Open
+    Set Username  testi
+    Set Password  testi123
+    Click Button  Login
+    Login Should Succeed
+
+Login After Failed Registration
+    Set Username  testi
+    Set Password  password1
+    Set Password Confirmation  salasana2
+    Submit Credentials
+    Register Should Fail With Message  Password and password confirmation don't match
+    Go To Login Page
+    Login Page Should Be Open
+    Set Username  testi
+    Set Password  password1
+    Click Button  Login
+    Login Should Fail With Message  Invalid username or password
+
 *** Keywords ***
 Register Should Succeed
     Welcome Page Should Be Open

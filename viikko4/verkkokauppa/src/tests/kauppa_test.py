@@ -1,3 +1,4 @@
+from ast import And
 import unittest
 from unittest.mock import Mock, ANY
 from kauppa import Kauppa
@@ -73,3 +74,34 @@ class TestKauppa(unittest.TestCase):
         self.kauppa.tilimaksu("pekka", "12345")
 
         self.pankki_mock.tilisiirto.assert_called_with("pekka", ANY, "12345", ANY, 5)
+
+    def test_aloita_asiointi_nollaa_ostoskortin(self):
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(2)
+        self.kauppa.tilimaksu("jaakko", "678910")
+
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1)
+        self.kauppa.tilimaksu("pekka", "12345")
+
+        self.pankki_mock.tilisiirto.assert_called_with("pekka", ANY, "12345", ANY, 5)
+
+    def test_pyytaa_uuden_viitenumeron_joka_tapahtumalle(self):
+        self.viitegeneraattori_mock.uusi.side_effect = [1, 2, 3]
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1)
+        self.kauppa.tilimaksu("pekka", "12345")
+
+        self.pankki_mock.tilisiirto.assert_called_with( ANY, 1, ANY, ANY, ANY)
+
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(2)
+        self.kauppa.tilimaksu("jaakko", "678910")
+
+        self.pankki_mock.tilisiirto.assert_called_with( ANY, 2, ANY, ANY, ANY)
+
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(3)
+        self.kauppa.tilimaksu("elina", "111213")
+
+        self.pankki_mock.tilisiirto.assert_called_with( ANY, 3, ANY, ANY, ANY)

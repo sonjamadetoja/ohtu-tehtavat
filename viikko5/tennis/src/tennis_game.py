@@ -12,46 +12,45 @@ class TennisGame:
             self.score_player2 = self.score_player2 + 1
 
     def get_score(self):
-        score = ""
-        temp_score = 0
-
         if self.score_player1 == self.score_player2:
-            if self.score_player1 == 0:
-                score = "Love-All"
-            elif self.score_player1 == 1:
-                score = "Fifteen-All"
-            elif self.score_player1 == 2:
-                score = "Thirty-All"
-            elif self.score_player1 == 3:
-                score = "Forty-All"
-            else:
-                score = "Deuce"
+            return self.tie()
         elif self.score_player1 >= 4 or self.score_player2 >= 4:
-            minus_result = self.score_player1 - self.score_player2
-
-            if minus_result == 1:
-                score = "Advantage player1"
-            elif minus_result == -1:
-                score = "Advantage player2"
-            elif minus_result >= 2:
-                score = "Win for player1"
-            else:
-                score = "Win for player2"
+            return self.more_than_four_points()
         else:
-            for i in range(1, 3):
-                if i == 1:
-                    temp_score = self.score_player1
-                else:
-                    score = score + "-"
-                    temp_score = self.score_player2
+            return self.not_tie_and_less_than_four_points()
 
-                if temp_score == 0:
-                    score = score + "Love"
-                elif temp_score == 1:
-                    score = score + "Fifteen"
-                elif temp_score == 2:
-                    score = score + "Thirty"
-                elif temp_score == 3:
-                    score = score + "Forty"
+    def tie(self):
+        if self.score_player1 == 0:
+            return "Love-All"
+        elif self.score_player1 == 1:
+            return "Fifteen-All"
+        elif self.score_player1 == 2:
+            return "Thirty-All"
+        elif self.score_player1 == 3:
+            return "Forty-All"
+        else:
+            return "Deuce"
 
-        return score
+    def more_than_four_points(self):
+        minus_result = self.score_player1 - self.score_player2
+        if minus_result == 1:
+            return "Advantage player1"
+        elif minus_result == -1:
+            return "Advantage player2"
+        elif minus_result >= 2:
+            return "Win for player1"
+        else:
+            return "Win for player2"
+
+    def not_tie_and_less_than_four_points(self):
+        return self.update_score(self.score_player1) + "-" + self.update_score(self.score_player2)
+
+    def update_score(self, new_score):
+        if new_score == 0:
+            return "Love"
+        elif new_score == 1:
+            return "Fifteen"
+        elif new_score == 2:
+            return "Thirty"
+        elif new_score == 3:
+            return "Forty"

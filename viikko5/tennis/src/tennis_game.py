@@ -4,6 +4,18 @@ class TennisGame:
         self.player2_name = player2_name
         self.score_player1 = 0
         self.score_player2 = 0
+        self.tie_dict = {
+            0: "Love-All",
+            1: "Fifteen-All",
+            2: "Thirty-All",
+            3: "Forty-All"
+        }
+        self.update_score_dict = {
+            0:"Love",
+            1:"Fifteen",
+            2:"Thirty",
+            3:"Forty"
+        }
 
     def won_point(self, player_name):
         if player_name == "player1":
@@ -20,14 +32,8 @@ class TennisGame:
             return self.not_tie_and_less_than_four_points()
 
     def tie(self):
-        if self.score_player1 == 0:
-            return "Love-All"
-        elif self.score_player1 == 1:
-            return "Fifteen-All"
-        elif self.score_player1 == 2:
-            return "Thirty-All"
-        elif self.score_player1 == 3:
-            return "Forty-All"
+        if self.score_player1 in self.tie_dict:
+            return self.tie_dict[self.score_player1]
         else:
             return "Deuce"
 
@@ -46,11 +52,4 @@ class TennisGame:
         return self.update_score(self.score_player1) + "-" + self.update_score(self.score_player2)
 
     def update_score(self, new_score):
-        if new_score == 0:
-            return "Love"
-        elif new_score == 1:
-            return "Fifteen"
-        elif new_score == 2:
-            return "Thirty"
-        elif new_score == 3:
-            return "Forty"
+        return self.update_score_dict[new_score]
